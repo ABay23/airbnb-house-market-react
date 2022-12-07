@@ -84,7 +84,7 @@ button {
   cursor: pointer;
   position: absolute;
   margin-right: 40px;
-  z-index: -1;
+  z-index: 1;
 
   right: 20px;
 }
