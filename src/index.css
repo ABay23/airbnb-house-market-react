@@ -83,7 +83,9 @@ button {
 .editIcon {
   cursor: pointer;
   position: absolute;
-  top: -3.4%;
+  margin-right: 40px;
+  z-index: -1;
+
   right: 20px;
 }
 
@@ -408,6 +410,7 @@ button {
   list-style-type: none;
   display: flex;
   padding: 20px;
+  padding-right: 100px;
 }
 
 .categoryListing {
