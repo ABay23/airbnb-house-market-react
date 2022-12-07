@@ -18,6 +18,7 @@ const Contact = () => {
 
       if (docSnap.exists()) {
         setLandLord(docSnap.data())
+        console.log(params.landlordId)
       } else {
         toast.error('Could not get ladlord Data!')
       }
