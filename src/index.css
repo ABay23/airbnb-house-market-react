@@ -75,8 +75,10 @@ button {
 .removeIcon {
   cursor: pointer;
   position: absolute;
-  top: -3%;
-  right: -2%;
+  width: 50px;
+  align-items: center;
+  /* top: 20px;
+  right: 20px; */
 }
 .editIcon {
   cursor: pointer;
@@ -401,6 +403,13 @@ button {
   list-style-type: none;
 }
 
+.categoryListingx {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  padding: 20px;
+}
+
 .categoryListing {
   display: flex;
   justify-content: space-between;
@@ -418,6 +427,7 @@ button {
   height: 100px;
   border-radius: 1.5rem;
   object-fit: cover;
+  margin-right: 20px;
 }
 @media (min-width: 1024px) {
   .categoryListingImg {
