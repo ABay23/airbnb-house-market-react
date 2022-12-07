@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom/dist'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/a11y'
+import 'swiper/css/scrollbar'
 import { getDoc, doc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { db } from '../firebase.config'
 import Spinner from '../components/Spinner'
 import shareIcon from '../assets/svg/shareIcon.svg'
+import CreateListings from './CreateListings'
 
 const Listing = () => {
   const [listing, setListing] = useState(null)
@@ -37,7 +46,28 @@ const Listing = () => {
 
   return (
     <main>
-      {/* SLIDER */}
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        navigation
+        style={{ height: '300px' }}
+      >
+        {listing.imageUrls.map((url, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <div
+                style={{
+                  background: `url(${listing.imageUrls[index]}) center no-repeat`,
+                  backgorundSize: 'cover',
+                }}
+                className='swiperSlideDiv'
+              ></div>
+            </SwiperSlide>
+          )
+        })}
+      </Swiper>
+
       <div
         className='shareIconDiv'
         onClick={() => {
@@ -91,7 +121,46 @@ const Listing = () => {
         </ul>
 
         <p className='listingLocationTitle'>Location</p>
-        {/* MAP */}
+        <div className='leafletContainer'>
+          <MapContainer
+            style={{ height: '100%', width: '100%' }}
+            center={[listing.geoLocation.lat, listing.geoLocation.lng]}
+            zoom={13}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            />
+            <Marker
+              position={[listing.geoLocation.lat, listing.geoLocation.lng]}
+            >
+              <Popup>
+                {listing.location}
+                <img
+                  src={listing.imageUrls[0]}
+                  alt='img'
+                  style={{
+                    height: '50%',
+                    width: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                />
+                <img
+                  src={listing.imageUrls[1]}
+                  alt='img'
+                  style={{
+                    height: '50%',
+                    width: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                />
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
 
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
